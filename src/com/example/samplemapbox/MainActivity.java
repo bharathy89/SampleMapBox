@@ -50,11 +50,9 @@ public class MainActivity extends Activity implements LocationListener {
 		mapController.animateTo(startingPoint);
 		
 		ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-		myMarker = mv.addMarker(startingPoint.getLatitude(), startingPoint.getLongitude(), "text", "text");
-
 		
 		myMarker = new Marker(mv, "text", "text", startingPoint);
-		//myMarker.setMarker(this.getResources().getDrawable(R.drawable.star));
+		myMarker.setMarker(this.getResources().getDrawable(R.drawable.markerstroked182x));
 		myMarker.setMarkerHotspot(HotspotPlace.CENTER);
 		items.add(myMarker);
 
@@ -94,7 +92,7 @@ public class MainActivity extends Activity implements LocationListener {
 	
 	public void onPause() {
 		super.onPause();
-		
+		locManager.removeUpdates(this);
 	}
 	
 	protected void replaceMapView(String layer){
@@ -102,6 +100,7 @@ public class MainActivity extends Activity implements LocationListener {
 
 	}
 
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -111,9 +110,10 @@ public class MainActivity extends Activity implements LocationListener {
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
-		GeoPoint p = new GeoPoint((int) (((double) location.getLatitude() / 1E5) * 1E6),
-				(int) (((double) location.getLongitude() / 1E5) * 1E6));
+		GeoPoint p = new GeoPoint((int) (((double) location.getLatitude()) * 1E6),
+				(int) (((double) location.getLongitude()) * 1E6));
 		myMarker.getPoint().setCoordsE6(p.getLatitudeE6(), p.getLongitudeE6());
+//		mv.invalidate();
 	}
 
 	@Override
